@@ -1,0 +1,10 @@
+^E:\CODE\OPENGL\SRC\BASE\CMAKELISTS.TXT
+setlocal
+D:\code_install_package\cmake\bin\cmake.exe -SE:/Code/opengl -BE:/Code/opengl/build --check-stamp-file E:/Code/opengl/build/src/base/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

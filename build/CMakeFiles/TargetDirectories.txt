@@ -1,0 +1,14 @@
+E:/Code/opengl/build/CMakeFiles/matrix.dir
+E:/Code/opengl/build/CMakeFiles/RUN_TESTS.dir
+E:/Code/opengl/build/CMakeFiles/ALL_BUILD.dir
+E:/Code/opengl/build/CMakeFiles/ZERO_CHECK.dir
+E:/Code/opengl/build/src/base/CMakeFiles/libbase.dir
+E:/Code/opengl/build/src/base/CMakeFiles/RUN_TESTS.dir
+E:/Code/opengl/build/src/window/CMakeFiles/libwindow.dir
+E:/Code/opengl/build/src/window/CMakeFiles/RUN_TESTS.dir
+E:/Code/opengl/build/src/shader/CMakeFiles/libshader.dir
+E:/Code/opengl/build/src/shader/CMakeFiles/RUN_TESTS.dir
+E:/Code/opengl/build/src/texture/CMakeFiles/libtexture.dir
+E:/Code/opengl/build/src/texture/CMakeFiles/RUN_TESTS.dir
+E:/Code/opengl/build/src/matrix/CMakeFiles/libmatrix.dir
+E:/Code/opengl/build/src/matrix/CMakeFiles/RUN_TESTS.dir

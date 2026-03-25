@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="E:\Code\opengl\build\CMakeFiles\ffb2fe5d877b22d35936da1c69d81d75\RUN_TESTS_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{78309279-C420-3303-819C-F44B94654C6B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,8 @@
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/CMakeFiles/opengl.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/CMakeFiles/test.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/src/base/CMakeFiles/libbase.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/src/base/CMakeFiles/rebuild_cache.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/src/base/CMakeFiles/test.dir
+E:/Code/opengl/OpenGlTest1/out/build/x64-Debug/src/base/CMakeFiles/edit_cache.dir
