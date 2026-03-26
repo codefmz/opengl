@@ -1,6 +1,5 @@
 file(GLOB SRC "./*.cpp")
-
-add_library(libshader STATIC ${SRC})
-target_link_libraries(libshader PRIVATE libbase)
-set_target_properties(libshader PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+add_library(shader OBJECT ${SRC})
+target_link_libraries(shader PUBLIC base)
+target_include_directories(shader PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(shader PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

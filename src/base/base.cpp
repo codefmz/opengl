@@ -32,7 +32,7 @@ GLFWwindow* createWindow()
         return NULL;
     }
 
-    glfwMakeContextCurrent(window);
+    glfwMakeContextCurrent(window); // 将窗口上下文设置为当前线程的上下文
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;

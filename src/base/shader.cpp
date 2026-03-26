@@ -1,12 +1,13 @@
 #include "shader.h"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
-    // 1. 从文件路径中获取顶点/片段着色器
+    // 1.从文件路径中获取顶点/片段着色器
     std::string vertexCode;
     std::string fragmentCode;
     std::ifstream vShaderFile;
     std::ifstream fShaderFile;
+
     // 保证ifstream对象可以抛出异常：
     vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -46,7 +47,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED " << infoLog << std::endl;
     };
 
-    //片段着色器
+    // 片段着色器
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderCode, NULL);
     glCompileShader(fragment);
@@ -72,6 +73,11 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     // 删除着色器，它们已经链接到我们的程序中了，已经不再需要了
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+}
+
+Shader::~Shader()
+{
+    glDeleteProgram(ID);
 }
 
 void Shader::use()

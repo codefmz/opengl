@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "base.h"
 #include "shader.h"
+#include <string>
 
 class windowTest : public ::testing::Test {
 protected:
@@ -21,8 +22,10 @@ TEST_F(windowTest, createWindow)
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f); //清理
         glClear(GL_COLOR_BUFFER_BIT);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -34,8 +37,12 @@ TEST_F(windowTest, createTrangle)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\window\shader.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\window\shader.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader.fs";
+
+    std::cout << "shader.vs:" << vsPath << std::endl;
+    std::cout << "shader.fs:" << fsPath << std::endl;
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f,
@@ -62,14 +69,16 @@ TEST_F(windowTest, createTrangle)
     while (!glfwWindowShouldClose(window)) {
         // input
         processInput(window);
+
         // render
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         // 清空颜色缓冲区
         glClear(GL_COLOR_BUFFER_BIT);
         // draw our first triangle
+
         shader.use();
         // 绑定 VBO
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
+        glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
@@ -82,12 +91,16 @@ TEST_F(windowTest, createTrangle)
     glfwTerminate();
 }
 
-TEST_F(windowTest, createTrangle2)
+TEST_F(windowTest, create2Trangle)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\window\shader.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\window\shader.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader.fs";
+
+    std::cout << "shader.vs:" << vsPath << std::endl;
+    std::cout << "shader.fs:" << fsPath << std::endl;
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         0.5f, 0.5f, 0.0f,   // 右上角
@@ -101,7 +114,7 @@ TEST_F(windowTest, createTrangle2)
         // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
         // 这样可以由下标代表顶点组合成矩形
 
-        0, 1, 3, // 第一个三角形
+        0, 1, 2, // 第一个三角形
         1, 2, 3  // 第二个三角形
     };
 
@@ -124,19 +137,18 @@ TEST_F(windowTest, createTrangle2)
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0); //启用顶点属性
 
-
     // note that this is allowed, the call to glVertexAttribPointer registered VBO
     // as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0); // unbind VBO
 
     // remember: do NOT unbind the EBO while a VAO is active
     // as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); //在 VAO 激活时不要解绑 EBO，否则会导致绘制时无法正确使用索引数据
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO,
     // but this rarely happens. Modifying other VAOs requires a call to glBindVertexArray anyways
     // so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
+    glBindVertexArray(0);   // unbind VA=8、
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -166,10 +178,15 @@ TEST_F(windowTest, createTwoTrangleWithDifColor)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\window\shader.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\window\shader.fs)");
-    Shader shader2(R"(E:\Code\opengl\OpenGlTest1\src\window\shader.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\window\shader2.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader.fs";
+    std::string fsPath2 = std::string(RES_DIR) + "//shader2.fs";
+
+    std::cout << "shader.vs:" << vsPath << std::endl;
+    std::cout << "shader.fs:" << fsPath << std::endl;
+
+    Shader shader(vsPath, fsPath);
+    Shader shader2(vsPath, fsPath2);
 
     float vertices[] = {
         -0.8f, 0.0f, 0.0f,
@@ -179,7 +196,7 @@ TEST_F(windowTest, createTwoTrangleWithDifColor)
 
     float vertices2[] = {
         0.0f, 0.0f, 0.0f,
-        0.4f, 0.4f, 0.0f,
+        0.4f, -0.4f, 0.0f,
         0.8f, 0.0f, 0.0f,
     };
 

@@ -19,8 +19,12 @@ TEST_F(shaderTest, createTrangleUseVertexColor)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader.fs";
+
+    std::cout << "shader.vs:" << vsPath << std::endl;
+    std::cout << "shader.fs:" << fsPath << std::endl;
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
        -0.5f, 0.0f, 0.0f,
@@ -39,13 +43,13 @@ TEST_F(shaderTest, createTrangleUseVertexColor)
     glGenBuffers(1, &VBO);
     glBindVertexArray(VAO);
     glGenBuffers(1, &EBO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+
     glEnableVertexAttribArray(0);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);

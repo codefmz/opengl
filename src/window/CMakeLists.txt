@@ -1,6 +1,5 @@
 file(GLOB SRC "./*.cpp")
-
-add_library(libwindow STATIC ${SRC})
-target_link_libraries(libwindow PRIVATE libbase)
-set_target_properties(libwindow PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+add_library(window OBJECT ${SRC})
+target_link_libraries(window PUBLIC base)
+target_include_directories(window PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(window PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
