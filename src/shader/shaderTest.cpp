@@ -80,8 +80,9 @@ TEST_F(shaderTest, createTrangleUseUniform)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_uniform.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_uniform.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_uniform.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_uniform.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
        -0.5f, 0.0f, 0.0f,
@@ -119,7 +120,7 @@ TEST_F(shaderTest, createTrangleUseUniform)
         shader.use();
 
         // 更新uniform颜色
-        float timeValue = glfwGetTime();
+        float timeValue = (float)glfwGetTime();
         float greenValue = sin(timeValue) / 2.0f + 0.5f;
         int vertexColorLocation = glGetUniformLocation(shader.ID, "ourColor");
         glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
@@ -143,14 +144,15 @@ TEST_F(shaderTest, createTrangleMulti)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_multi.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_multi.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_multi.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_multi.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         // 位置              // 颜色
         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // 右下
         -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // 左下
-        0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f // 顶部
+        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f // 顶部
     };
 
     unsigned int indices[] = {
@@ -183,8 +185,9 @@ TEST_F(shaderTest, createTrangleMulti)
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
+ 
         shader.use();
+
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
@@ -204,9 +207,9 @@ TEST_F(shaderTest, createTrangleMultiUpDown)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_up_down.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_multi.fs)");
-
+    std::string vsPath = std::string(RES_DIR) + "//shader_up_down.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_multi.fs";
+    Shader shader(vsPath, fsPath);
     float vertices[] = {
         // 位置              // 颜色
         0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // 右下
@@ -238,6 +241,7 @@ TEST_F(shaderTest, createTrangleMultiUpDown)
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
+    bool isDown = false;
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -246,6 +250,8 @@ TEST_F(shaderTest, createTrangleMultiUpDown)
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
+        shader.setBool("isDown", isDown);
+        isDown = !isDown;
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
@@ -265,8 +271,9 @@ TEST_F(shaderTest, createTrangleXoffset)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_uniform_level.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_multi.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_uniform_level.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_multi.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         // 位置              // 颜色
@@ -300,6 +307,8 @@ TEST_F(shaderTest, createTrangleXoffset)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    const float PI = 3.14159265359;
+    float time = 2 * PI;
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
@@ -308,10 +317,19 @@ TEST_F(shaderTest, createTrangleXoffset)
 
         shader.use();
 
-        float timeValue = glfwGetTime();
-        float xoffset = sin(timeValue) / 2.0f;
-        int vertexColorLocation = glGetUniformLocation(shader.ID, "xoffset");
-        glUniform1f(vertexColorLocation, xoffset);
+        float timeValue = (float)glfwGetTime();
+        // float xoffset = sin(timeValue) / 2.0f;
+        if (timeValue > time) {
+            timeValue = timeValue - time;
+            time *= 2;
+        }
+        timeValue = timeValue - PI;
+
+        shader.setFloat("time", timeValue);
+        shader.setFloat("xPos", timeValue / PI);
+
+        // int vertexColorLocation = glGetUniformLocation(shader.ID, "xoffset");
+        // glUniform1f(vertexColorLocation, xoffset);
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
