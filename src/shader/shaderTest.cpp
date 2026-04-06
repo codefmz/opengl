@@ -185,7 +185,7 @@ TEST_F(shaderTest, createTrangleMulti)
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
- 
+
         shader.use();
 
         glBindVertexArray(VAO);
@@ -266,7 +266,7 @@ TEST_F(shaderTest, createTrangleMultiUpDown)
     glfwTerminate();
 }
 
-//创建三角形，每个点有不同的颜色 - 水平偏移
+//创建三角形，中心点沿着sin曲线移动
 TEST_F(shaderTest, createTrangleXoffset)
 {
     initGLFW();
@@ -277,9 +277,9 @@ TEST_F(shaderTest, createTrangleXoffset)
 
     float vertices[] = {
         // 位置              // 颜色
-        0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // 右下
-        -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // 左下
-        0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f // 顶部
+        0.25f, -0.25f, 0.0f, 1.0f, 0.0f, 0.0f, // 右下
+        -0.25f, -0.25f, 0.0f, 0.0f, 1.0f, 0.0f, // 左下
+        0.0f,  0.25f, 0.0f, 0.0f, 0.0f, 1.0f // 顶部
     };
 
     unsigned int indices[] = {
@@ -308,28 +308,25 @@ TEST_F(shaderTest, createTrangleXoffset)
     glBindVertexArray(0);
 
     const float PI = 3.14159265359;
-    float time = 2 * PI;
+    float time = 2 * PI, beforeTime = 0;
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-
         shader.use();
 
         float timeValue = (float)glfwGetTime();
-        // float xoffset = sin(timeValue) / 2.0f;
         if (timeValue > time) {
             timeValue = timeValue - time;
-            time *= 2;
+            beforeTime = time;
+            time += 2 * PI;
+        } else {
+            timeValue = timeValue - beforeTime;
         }
         timeValue = timeValue - PI;
-
         shader.setFloat("time", timeValue);
         shader.setFloat("xPos", timeValue / PI);
-
-        // int vertexColorLocation = glGetUniformLocation(shader.ID, "xoffset");
-        // glUniform1f(vertexColorLocation, xoffset);
 
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
@@ -350,8 +347,9 @@ TEST_F(shaderTest, createTranglePos2Color)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
-    Shader shader(R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_pos_2_color.vs)",
-        R"(E:\Code\opengl\OpenGlTest1\src\shader\shader_pos_2_color.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_pos_2_color.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_pos_2_color.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         // 位置

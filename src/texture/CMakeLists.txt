@@ -1,6 +1,5 @@
 file(GLOB SRC "./*.cpp")
-
-add_library(libtexture STATIC ${SRC})
-target_link_libraries(libtexture PRIVATE libbase)
-set_target_properties(libtexture PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+add_library(texture OBJECT ${SRC})
+target_link_libraries(texture PUBLIC base)
+target_include_directories(texture PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(texture PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

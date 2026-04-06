@@ -4,11 +4,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-class textureTest : public ::testing::Test {
+class texture : public ::testing::Test {
 protected:
-    textureTest() {
+    texture() {
     }
-    ~textureTest() override {
+    ~texture() override {
     }
     void SetUp() override {
     }
@@ -16,7 +16,7 @@ protected:
     }
 };
 
-void genTextureData(unsigned int &texture, const char *filePath, unsigned int format, GLint param)
+void genTextureData(unsigned int &texture, const std::string &filePath, unsigned int format, GLint param)
 {
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -28,26 +28,28 @@ void genTextureData(unsigned int &texture, const char *filePath, unsigned int fo
     // 加载并生成纹理
     int width, height, nrChannels;
     stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
+    unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
     if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data); // 将数据复制到当前绑定的纹理对象中
+        glGenerateMipmap(GL_TEXTURE_2D); // 为当前绑定的纹理对象生成多级渐远纹理
     } else {
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
 }
 
-TEST_F(textureTest, texture1)
+// 加载箱子图片
+TEST_F(texture, loadContainer)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\texture\shader.vs)",
-        R"(E:\Code\opengl\src\texture\shader.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader.fs";
+    Shader shader(vsPath, fsPath);
 
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
     unsigned int texture;
-    genTextureData(texture, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_REPEAT);
-
+    genTextureData(texture, imgPath, GL_RGB, GL_REPEAT);
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
         0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // 右上
@@ -108,7 +110,7 @@ TEST_F(textureTest, texture1)
     glfwTerminate();
 }
 
-TEST_F(textureTest, texture_mix)
+TEST_F(texture, texture_mix)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
@@ -193,7 +195,7 @@ TEST_F(textureTest, texture_mix)
     glfwTerminate();
 }
 
-TEST_F(textureTest, texture_four)
+TEST_F(texture, texture_four)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
@@ -302,7 +304,7 @@ void processInputImpl(GLFWwindow* window, float &mixNum)
     }
 }
 
-TEST_F(textureTest, texture_updown)
+TEST_F(texture, texture_updown)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
@@ -391,7 +393,7 @@ TEST_F(textureTest, texture_updown)
     glfwTerminate();
 }
 
-TEST_F(textureTest, texture_pixel)
+TEST_F(texture, texture_pixel)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
