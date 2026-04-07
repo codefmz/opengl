@@ -2,11 +2,11 @@
 #include "base.h"
 #include "shader.h"
 
-class shaderTest : public ::testing::Test {
+class shader : public ::testing::Test {
 protected:
-    shaderTest() {
+    shader() {
     }
-    ~shaderTest() override {
+    ~shader() override {
     }
     void SetUp() override {
     }
@@ -15,7 +15,7 @@ protected:
 };
 
 //创建三角形，片段着色器使用从顶点着色器定义的颜色
-TEST_F(shaderTest, createTrangleUseVertexColor)
+TEST_F(shader, createTrangleUseVertexColor)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
@@ -76,7 +76,7 @@ TEST_F(shaderTest, createTrangleUseVertexColor)
 }
 
 //创建三角形，使用Uniform动态修改三角形的颜色
-TEST_F(shaderTest, createTrangleUseUniform)
+TEST_F(shader, createTrangleUseUniform)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
@@ -140,7 +140,7 @@ TEST_F(shaderTest, createTrangleUseUniform)
 }
 
 //创建三角形，每个点有不同的颜色
-TEST_F(shaderTest, createTrangleMulti)
+TEST_F(shader, createTrangleMulti)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
@@ -203,7 +203,7 @@ TEST_F(shaderTest, createTrangleMulti)
 }
 
 //创建三角形，每个点有不同的颜色 - 上下颠倒
-TEST_F(shaderTest, createTrangleMultiUpDown)
+TEST_F(shader, createTrangleMultiUpDown)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
@@ -267,7 +267,7 @@ TEST_F(shaderTest, createTrangleMultiUpDown)
 }
 
 //创建三角形，中心点沿着sin曲线移动
-TEST_F(shaderTest, createTrangleXoffset)
+TEST_F(shader, createTrangleXoffset)
 {
     initGLFW();
     GLFWwindow *window = createWindow();
@@ -307,7 +307,7 @@ TEST_F(shaderTest, createTrangleXoffset)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    const float PI = 3.14159265359;
+    const float PI = 3.14159265359f;
     float time = 2 * PI, beforeTime = 0;
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
@@ -343,7 +343,7 @@ TEST_F(shaderTest, createTrangleXoffset)
 }
 
 //创建三角形，每个点的颜色是它顶点的位置
-TEST_F(shaderTest, createTranglePos2Color)
+TEST_F(shader, createTranglePos2Color)
 {
     initGLFW();
     GLFWwindow *window = createWindow();

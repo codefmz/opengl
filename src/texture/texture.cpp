@@ -114,8 +114,9 @@ TEST_F(texture, texture_mix)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\texture\shader_mix.vs)",
-        R"(E:\Code\opengl\src\texture\shader_mix.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_mix.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_mix.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -154,9 +155,11 @@ TEST_F(texture, texture_mix)
     glEnableVertexAttribArray(2);
 
     unsigned int texture1, texture2;
-    genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_REPEAT);
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
+    std::string imgPath2 = std::string(RES_DIR) + "//awesomeface.png";
+    genTextureData(texture1, imgPath, GL_RGB, GL_REPEAT);
     //GL_RGBA 指定读取包含透明度的图片
-    genTextureData(texture2, R"(E:\Code\opengl\src\texture\awesomeface.png)", GL_RGBA, GL_REPEAT);
+    genTextureData(texture2, imgPath2, GL_RGBA, GL_REPEAT);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     shader.use(); // don't forget to activate/use the shader before setting uniforms!
@@ -199,8 +202,9 @@ TEST_F(texture, texture_four)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\texture\shader_mix.vs)",
-        R"(E:\Code\opengl\src\texture\shader_mix.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_mix.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_mix.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -240,13 +244,16 @@ TEST_F(texture, texture_four)
 
     unsigned int texture1, texture2;
     // genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_CLAMP_TO_BORDER);
-    //超出范围设置颜色
+    // //超出范围设置颜色
     // float borderColor[] = { 1.0f, 1.0f, 0.0f, 1.0f };
     // glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     //镜像颜色设置
-    genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_MIRRORED_REPEAT);
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
+    std::string imgPath2 = std::string(RES_DIR) + "//awesomeface.png";
+    genTextureData(texture1, imgPath, GL_RGB, GL_MIRRORED_REPEAT);
     //GL_RGBA 指定读取包含透明度的图片
-    genTextureData(texture2, R"(E:\Code\opengl\src\texture\awesomeface.png)", GL_RGBA, GL_REPEAT);
+    // genTextureData(texture2, imgPath2, GL_RGBA, GL_REPEAT);
+    genTextureData(texture2, imgPath2, GL_RGBA, GL_MIRRORED_REPEAT);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     shader.use(); // don't forget to activate/use the shader before setting uniforms!
@@ -292,24 +299,28 @@ void processInputImpl(GLFWwindow* window, float &mixNum)
     }
 
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        mixNum += 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+        mixNum += 0.01f; // change this value accordingly (might be too slow or too fast based on system hardware)
         if(mixNum >= 1.0f) {
             mixNum = 1.0f;
         }
     } else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        mixNum -= 0.001f; // change this value accordingly (might be too slow or too fast based on system hardware)
+        mixNum -= 0.01f; // change this value accordingly (might be too slow or too fast based on system hardware)
         if(mixNum <= 0.0f) {
             mixNum = 0.0f;
         }
     }
+
+    std::cout << "mixNum: " << mixNum << std::endl;
 }
 
+/* 使用键盘键上下键控制纹理透明度 */
 TEST_F(texture, texture_updown)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\texture\shader_mix.vs)",
-        R"(E:\Code\opengl\src\texture\shader_up_down.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_mix.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_up_down.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -348,9 +359,12 @@ TEST_F(texture, texture_updown)
     glEnableVertexAttribArray(2);
 
     unsigned int texture1, texture2;
-    genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_MIRRORED_REPEAT);
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
+    std::string imgPath2 = std::string(RES_DIR) + "//awesomeface.png";
+    genTextureData(texture1, imgPath, GL_RGB, GL_MIRRORED_REPEAT);
     //GL_RGBA 指定读取包含透明度的图片
-    genTextureData(texture2, R"(E:\Code\opengl\src\texture\awesomeface.png)", GL_RGBA, GL_REPEAT);
+    // genTextureData(texture2, imgPath2, GL_RGBA, GL_REPEAT);
+    genTextureData(texture2, imgPath2, GL_RGBA, GL_MIRRORED_REPEAT);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     shader.use(); // don't forget to activate/use the shader before setting uniforms!
@@ -359,7 +373,7 @@ TEST_F(texture, texture_updown)
     // or set it via the texture class
     shader.setInt("texture2", 1);
 
-    float mixNum = 0.2;
+    float mixNum = 0.2f;
     while (!glfwWindowShouldClose(window)) {
         // input
         processInputImpl(window, mixNum);
@@ -397,15 +411,16 @@ TEST_F(texture, texture_pixel)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\texture\shader_mix.vs)",
-        R"(E:\Code\opengl\src\texture\shader_mix.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_mix.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_mix.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         //     ---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
-        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.55f, 0.55f,   // 右上
-        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.55f, 0.45f,   // 右下
-        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.45f, 0.45f,   // 左下
-        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.45f, 0.55f    // 左上
+        0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   0.8f, 0.8f,   // 右上
+        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   0.8f, 0.2f,   // 右下
+        -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.2f, 0.2f,   // 左下
+        -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.2f, 0.8f    // 左上
     };
 
     unsigned int indices[] = {
@@ -437,9 +452,12 @@ TEST_F(texture, texture_pixel)
     glEnableVertexAttribArray(2);
 
     unsigned int texture1, texture2;
-    genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_CLAMP_TO_EDGE);
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
+    std::string imgPath2 = std::string(RES_DIR) + "//awesomeface.png";
+    genTextureData(texture1, imgPath, GL_RGB, GL_REPEAT);
     //GL_RGBA 指定读取包含透明度的图片
-    genTextureData(texture2, R"(E:\Code\opengl\src\texture\awesomeface.png)", GL_RGBA, GL_REPEAT);
+    // genTextureData(texture2, imgPath2, GL_RGBA, GL_CLAMP_TO_EDGE);
+    genTextureData(texture2, imgPath2, GL_RGBA, GL_REPEAT);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     shader.use(); // don't forget to activate/use the shader before setting uniforms!
