@@ -8,11 +8,11 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-class matrixTest : public ::testing::Test {
+class matrix : public ::testing::Test {
 protected:
-    matrixTest() {
+    matrix() {
     }
-    ~matrixTest() override {
+    ~matrix() override {
     }
     void SetUp() override {
     }
@@ -20,44 +20,13 @@ protected:
     }
 };
 
-void genTextureData(unsigned int &texture, const char *filePath, unsigned int format, GLint param)
-{
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    // 为当前绑定的纹理对象设置环绕、过滤方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, param);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, param);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    // 加载并生成纹理
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    unsigned char *data = stbi_load(filePath, &width, &height, &nrChannels, 0);
-    if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    } else {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-}
-
-void printMat4(const glm::mat4& matrix) {
-    for (int i = 0; i < 4; ++i) {        // 行
-        for (int j = 0; j < 4; ++j) {    // 列
-            // 注意：GLM 默认是列主序，所以用 [j][i] 访问
-            std::cout << matrix[j][i] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
-
-TEST_F(matrixTest, matrix1)
+TEST_F(matrix, matrix1)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
-    Shader shader(R"(E:\Code\opengl\src\matrix\shader_mix.vs)",
-        R"(E:\Code\opengl\src\matrix\shader_mix.fs)");
+    std::string vsPath = std::string(RES_DIR) + "//shader_mix.vs";
+    std::string fsPath = std::string(RES_DIR) + "//shader_mix.fs";
+    Shader shader(vsPath, fsPath);
 
     float vertices[] = {
         //---- 位置 ----       ---- 颜色 ----     - 纹理坐标 -
@@ -95,10 +64,12 @@ TEST_F(matrixTest, matrix1)
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
+    std::string imgPath = std::string(RES_DIR) + "//container.jpg";
+    std::string imgPath2 = std::string(RES_DIR) + "//awesomeface.png";
     unsigned int texture1, texture2;
-    genTextureData(texture1, R"(E:\Code\opengl\src\texture\container.jpg)", GL_RGB, GL_REPEAT);
+    genTextureData(texture1, imgPath, GL_RGB, GL_REPEAT);
     //GL_RGBA 指定读取包含透明度的图片
-    genTextureData(texture2, R"(E:\Code\opengl\src\texture\awesomeface.png)", GL_RGBA, GL_REPEAT);
+    genTextureData(texture2, imgPath2, GL_RGBA, GL_REPEAT);
 
     // tell opengl for each sampler to which texture unit it belongs to (only has to be done once)
     shader.use(); // don't forget to activate/use the shader before setting uniforms!
@@ -135,15 +106,16 @@ TEST_F(matrixTest, matrix1)
         // draw our first triangle
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        // second transformation
-        // ---------------------
-        glm::mat4 transform = glm::mat4(1.0f); // reset it to identity matrix
-        transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-        float scaleAmount = static_cast<float>(sin(glfwGetTime()));
-        transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
-       // now with the uniform matrix being replaced with new transformations, draw it again.
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //     // second transformation
+    //     // ---------------------
+    //     glm::mat4 transform = glm::mat4(1.0f); // reset it to identity matrix
+    //     transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+    //     float scaleAmount = static_cast<float>(sin(glfwGetTime()));
+    //     transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+    //     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
+    //    // now with the uniform matrix being replaced with new transformations, draw it again.
+    //     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

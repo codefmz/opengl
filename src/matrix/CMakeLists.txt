@@ -1,6 +1,5 @@
 file(GLOB SRC "./*.cpp")
-
-add_library(libmatrix STATIC ${SRC})
-target_link_libraries(libmatrix PRIVATE libbase)
-set_target_properties(libmatrix PROPERTIES
-    ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+add_library(matrix OBJECT ${SRC})
+target_link_libraries(matrix PUBLIC base)
+target_include_directories(matrix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(matrix PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

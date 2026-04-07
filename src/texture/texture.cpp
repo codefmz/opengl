@@ -16,28 +16,6 @@ protected:
     }
 };
 
-void genTextureData(unsigned int &texture, const std::string &filePath, unsigned int format, GLint param)
-{
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    // 为当前绑定的纹理对象设置环绕、过滤方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, param);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, param);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    // 加载并生成纹理
-    int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    unsigned char *data = stbi_load(filePath.c_str(), &width, &height, &nrChannels, 0);
-    if (data) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, format, GL_UNSIGNED_BYTE, data); // 将数据复制到当前绑定的纹理对象中
-        glGenerateMipmap(GL_TEXTURE_2D); // 为当前绑定的纹理对象生成多级渐远纹理
-    } else {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-}
-
 // 加载箱子图片
 TEST_F(texture, loadContainer)
 {
