@@ -1,0 +1,5 @@
+file(GLOB SRC "./*.cpp")
+add_library(coordinate OBJECT ${SRC})
+target_link_libraries(coordinate PUBLIC base)
+target_include_directories(coordinate PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(coordinate PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
