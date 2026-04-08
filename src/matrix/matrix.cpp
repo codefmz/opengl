@@ -1,8 +1,6 @@
 #include "gtest/gtest.h"
 #include "base.h"
 #include "shader.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -20,7 +18,7 @@ protected:
     }
 };
 
-TEST_F(matrix, matrix1)
+TEST_F(matrix, matrix)
 {
     initGLFW();
     GLFWwindow* window = createWindow();
@@ -106,16 +104,19 @@ TEST_F(matrix, matrix1)
         // draw our first triangle
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    //     // second transformation
-    //     // ---------------------
-    //     glm::mat4 transform = glm::mat4(1.0f); // reset it to identity matrix
-    //     transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
-    //     float scaleAmount = static_cast<float>(sin(glfwGetTime()));
-    //     transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
-    //     glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
-    //    // now with the uniform matrix being replaced with new transformations, draw it again.
-    //     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    
+        // second transformation
+        // ---------------------
+        glm::mat4 transform = glm::mat4(1.0f); // reset it to identity matrix
+        transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+        float scaleAmount = static_cast<float>(sin(glfwGetTime()));
+        if (scaleAmount < 0) {
+            scaleAmount = -scaleAmount;
+        }
+        transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, 0));
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
+       // now with the uniform matrix being replaced with new transformations, draw it again.
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

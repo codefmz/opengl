@@ -1,8 +1,6 @@
 #include "gtest/gtest.h"
 #include "base.h"
 #include "shader.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
 
 class texture : public ::testing::Test {
 protected:
