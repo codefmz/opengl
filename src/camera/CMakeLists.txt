@@ -1,0 +1,5 @@
+file(GLOB SRC "./*.cpp")
+add_library(camera OBJECT ${SRC})
+target_link_libraries(camera PUBLIC base)
+target_include_directories(camera PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(camera PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
