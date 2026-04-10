@@ -1,0 +1,5 @@
+file(GLOB SRC "./*.cpp")
+add_library(light OBJECT ${SRC})
+target_link_libraries(light PUBLIC base)
+target_include_directories(light PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_definitions(light PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

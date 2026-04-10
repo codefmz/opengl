@@ -21,4 +21,4 @@ add_subdirectory(src)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 add_executable(og main.cpp glad.c)
-target_link_libraries(og glfw3 opengl32 gtest base window shader texture matrix coordinate camera)
+target_link_libraries(og glfw3 opengl32 gtest base window shader texture matrix coordinate camera light)

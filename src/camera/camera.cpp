@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "camera.h"
 
 class camera : public ::testing::Test {
 protected:
@@ -185,11 +186,11 @@ TEST_F(camera, autoRotation)
     glfwTerminate();
 }
 
-glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
-float deltaTime = 0.0f; // 当前帧与上一帧的时间差
-float lastFrame = 0.0f; // 上一帧的时间
+static glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
+static glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+static glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
+static float deltaTime = 0.0f; // 当前帧与上一帧的时间差
+static float lastFrame = 0.0f; // 上一帧的时间
 
 void processInputCamera(GLFWwindow *window)
 {
