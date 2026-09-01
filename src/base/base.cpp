@@ -69,7 +69,8 @@ void genTextureData(unsigned int &texture, const std::string &filePath, unsigned
     stbi_image_free(data);
 }
 
-void printMat4(const glm::mat4& matrix) {
+void printMat4(const glm::mat4& matrix) 
+{
     for (int i = 0; i < 4; ++i) {        // 行
         for (int j = 0; j < 4; ++j) {    // 列
             // 注意：GLM 默认是列主序，所以用 [j][i] 访问

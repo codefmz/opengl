@@ -77,7 +77,7 @@ TEST_F(windowTest, createTrangle)
         // draw our first triangle
 
         shader.use();
-        // 绑定 VBO
+        // 绑定 VAO
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -148,7 +148,7 @@ TEST_F(windowTest, create2Trangle)
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO,
     // but this rarely happens. Modifying other VAOs requires a call to glBindVertexArray anyways
     // so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);   // unbind VA=8、
+    glBindVertexArray(0);   // unbind VA0
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);

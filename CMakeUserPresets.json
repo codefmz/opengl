@@ -1,0 +1,70 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "msvc-base",
+      "displayName": "MSVC Ninja Common Base",
+      "inherits": "base",
+      "generator": "Ninja",
+      "hidden":true,
+      "environment": {
+        "VCPKG_ROOT": "D:\\code\\3rd\\vcpkg",
+        "RC": "C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64\\rc.exe",
+        "WindowsSdkDir": "C:\\Program Files (x86)\\Windows Kits\\10\\",
+        "WindowsSDKVersion": "10.0.26100.0\\",
+        "UniversalCRTSdkDir": "C:\\Program Files (x86)\\Windows Kits\\10\\",
+        "UCRTVersion": "10.0.26100.0",
+        "INCLUDE": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\include;D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\include;D:\\install_package\\MSVC\\products\\VC\\Auxiliary\\VS\\include;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\winrt;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\cppwinrt;$penv{INCLUDE}",
+        "LIB": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\lib\\x64;D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\lib\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64;$penv{LIB}",
+        "PATH": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64;D:\\install_package\\MSVC\\products\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64;$penv{PATH}",
+        "VCPKG_KEEP_ENV_VARS": "PERL;RC;PATH;INCLUDE;LIB"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "D:/install_package/MSVC/products/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+        "CMAKE_CXX_COMPILER": "D:/install_package/MSVC/products/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+        "CMAKE_MAKE_PROGRAM": "D:/install_package/MSVC/products/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe",
+        "VCPKG_INSTALLED_DIR": "${sourceDir}/build/vcpkg_installed",
+        "VCPKG_MANIFEST_INSTALL": "ON"
+      }
+    },
+    {
+      "name": "msvc-dbg",
+      "displayName": "MSVC Ninja Debug",
+      "inherits": "msvc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "msvc-rel",
+      "displayName": "MSVC Ninja Release",
+      "inherits": "msvc-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "msvc-base",
+      "displayName": "Build MSVC Ninja Common Base",
+      "configurePreset": "msvc-base",
+      "hidden":true,
+      "environment": {
+        "INCLUDE": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\include;D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\include;D:\\install_package\\MSVC\\products\\VC\\Auxiliary\\VS\\include;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\ucrt;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\shared;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\um;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\winrt;C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.26100.0\\cppwinrt;$penv{INCLUDE}",
+        "LIB": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\lib\\x64;D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\ATLMFC\\lib\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\ucrt\\x64;C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.26100.0\\um\\x64;$penv{LIB}",
+        "PATH": "D:\\install_package\\MSVC\\products\\VC\\Tools\\MSVC\\14.51.36231\\bin\\Hostx64\\x64;D:\\install_package\\MSVC\\products\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\Ninja;C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.26100.0\\x64;$penv{PATH}"
+      }
+    },
+    {
+      "name": "msvc-dbg",
+      "inherits": "msvc-base",
+      "configurePreset": "msvc-dbg"
+    },
+    {
+      "name": "msvc-rel",
+      "inherits": "msvc-base",
+      "configurePreset": "msvc-rel"
+    }
+  ]
+}

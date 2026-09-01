@@ -1,5 +1,4 @@
 file(GLOB SRC "./*.cpp")
-add_library(texture OBJECT ${SRC})
-target_link_libraries(texture PUBLIC base)
-target_include_directories(texture PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_executable(texture ${SRC})
+target_link_libraries(texture PUBLIC base GTest::gtest GTest::gtest_main glfw3)
 target_compile_definitions(texture PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

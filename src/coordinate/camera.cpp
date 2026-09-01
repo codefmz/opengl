@@ -187,6 +187,7 @@ TEST_F(camera, autoRotation)
 }
 
 static glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
+//相机默认朝向Z 轴负方向
 static glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 static glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 static float deltaTime = 0.0f; // 当前帧与上一帧的时间差

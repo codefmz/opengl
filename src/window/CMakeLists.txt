@@ -1,5 +1,4 @@
 file(GLOB SRC "./*.cpp")
-add_library(window OBJECT ${SRC})
-target_link_libraries(window PUBLIC base)
-target_include_directories(window PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+add_executable(window ${SRC})
+target_link_libraries(window PUBLIC base GTest::gtest GTest::gtest_main glfw3)
 target_compile_definitions(window PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

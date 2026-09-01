@@ -18,6 +18,7 @@ protected:
     }
 };
 
+/* 中间一个绕z轴旋转， 另一个移动到左上角同时从0 到1的缩放*/
 TEST_F(matrix, matrix)
 {
     initGLFW();

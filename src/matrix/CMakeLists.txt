@@ -1,5 +1,5 @@
 file(GLOB SRC "./*.cpp")
-add_library(matrix OBJECT ${SRC})
-target_link_libraries(matrix PUBLIC base)
+add_executable(matrix ${SRC})
+target_link_libraries(matrix PUBLIC base GTest::gtest GTest::gtest_main glfw3)
 target_include_directories(matrix PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(matrix PRIVATE RES_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
